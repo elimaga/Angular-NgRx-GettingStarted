@@ -6,6 +6,7 @@ import { Product } from '../product';
 import { Store, select } from '@ngrx/store';
 import * as fromProduct from '../state/product.reducer';
 import * as productActions from '../state/product.actions';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'pm-product-list',
@@ -18,7 +19,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
   displayCode: boolean;
 
-  products: Product[];
+  products$: Observable<Product[]>;
 
   // Used to highlight the selected product in the list
   selectedProduct: Product | null;
@@ -34,10 +35,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
     );
 
     this.store.dispatch(new productActions.Load());
-    // TODO: unsubscribe
-    this.store.pipe(select(fromProduct.getProducts)).subscribe(
-      products => this.products = products
-    );
+    this.products$ = this.store.pipe(select(fromProduct.getProducts));
 
     // TODO: unsubscribe
     this.store.pipe(select(fromProduct.getShowProductCode)).subscribe(showProductCode => {
