@@ -15,11 +15,11 @@ import { Observable } from 'rxjs';
 })
 export class ProductListComponent implements OnInit, OnDestroy {
   pageTitle = 'Products';
-  errorMessage: string;
-
+  
   displayCode: boolean;
 
   products$: Observable<Product[]>;
+  errorMessage$: Observable<string>;
 
   // Used to highlight the selected product in the list
   selectedProduct: Product | null;
@@ -36,6 +36,7 @@ export class ProductListComponent implements OnInit, OnDestroy {
 
     this.store.dispatch(new productActions.Load());
     this.products$ = this.store.pipe(select(fromProduct.getProducts));
+    this.errorMessage$ = this.store.pipe(select(fromProduct.getError));
 
     // TODO: unsubscribe
     this.store.pipe(select(fromProduct.getShowProductCode)).subscribe(showProductCode => {
