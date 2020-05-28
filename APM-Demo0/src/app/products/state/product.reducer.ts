@@ -134,13 +134,9 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
       }
 
     case ProductActionTypes.DeleteProductSuccess:
-      const productsWithDeletedOneRemoved = state.products.filter(
-        item => action.payload !== item.id
-      );
-      
       return {
         ...state,
-        products: productsWithDeletedOneRemoved,
+        products: state.products.filter(item => action.payload !== item.id),
         currentProductId: null,
         error: ''
       }
