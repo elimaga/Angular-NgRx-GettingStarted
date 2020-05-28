@@ -133,6 +133,24 @@ export function reducer(state = initialState, action: ProductActions): ProductSt
         error: action.payload
       }
 
+    case ProductActionTypes.DeleteProductSuccess:
+      const productsWithDeletedOneRemoved = state.products.filter(
+        item => action.payload !== item.id
+      );
+      
+      return {
+        ...state,
+        products: productsWithDeletedOneRemoved,
+        currentProductId: null,
+        error: ''
+      }
+
+    case ProductActionTypes.DeleteProductFail:
+      return {
+        ...state,
+        error: action.payload
+      }
+
     default:
       return state;
   }
