@@ -58,9 +58,13 @@ export class ProductEditComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     // Define the form group
     this.productForm = this.fb.group({
-      productName: ['', [Validators.required,
-                         Validators.minLength(3),
-                         Validators.maxLength(50)]],
+      productName: ['',
+        [
+          Validators.required,
+          Validators.minLength(3),
+          Validators.maxLength(50)
+        ]
+      ],
       productCode: ['', Validators.required],
       starRating: ['', NumberValidators.range(1, 5)],
       description: ''
@@ -141,15 +145,12 @@ export class ProductEditComponent implements OnInit, OnDestroy {
         // Copy over all of the original product properties
         // Then copy over the values from the form
         // This ensures values not on the form, such as the Id, are retained
-        const updatedProduct = { ...this.product, ...this.productForm.value };
+        const productToSave = { ...this.product, ...this.productForm.value };
 
-        if (updatedProduct.id === 0) {
-          this.productService.createProduct(updatedProduct).subscribe({
-            next: product => this.store.dispatch(new productActions.SetCurrentProduct(product)),
-            error: err => this.errorMessage = err.error
-          });
+        if (productToSave.id === 0) {
+          this.store.dispatch(new productActions.CreateProduct(productToSave))
         } else {
-          this.store.dispatch(new productActions.UpdateProduct(updatedProduct));
+          this.store.dispatch(new productActions.UpdateProduct(productToSave));
         }
       }
     } else {
