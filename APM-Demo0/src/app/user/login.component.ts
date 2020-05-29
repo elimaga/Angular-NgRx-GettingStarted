@@ -7,7 +7,7 @@ import { AuthService } from './auth.service';
 /* NgRx */
 import { Store, select } from '@ngrx/store';
 import * as fromRoot from '../state/app.state';
-import { getMaskUserName } from './state/user.reducer';
+import * as fromUser from './state';
 import * as userActions from './state/user.actions';
 import { takeWhile } from 'rxjs/operators';
 
@@ -31,7 +31,7 @@ export class LoginComponent implements OnInit, OnDestroy {
   
   ngOnInit(): void {
     this.store.pipe(
-      select(getMaskUserName),
+      select(fromUser.getMaskUserName),
       takeWhile(() => this.componentActive)
     ).subscribe(maskUserName => {
       this.maskUserName = maskUserName;
