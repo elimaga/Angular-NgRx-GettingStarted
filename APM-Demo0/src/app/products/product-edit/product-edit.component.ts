@@ -7,7 +7,7 @@ import { NumberValidators } from '../../shared/number.validator';
 
 /* NgRx */
 import { Store, select } from '@ngrx/store';
-import * as fromProduct from '../state/product.reducer';
+import * as fromProduct from '../state';
 import * as productActions from '../state/product.actions';
 import { takeWhile } from 'rxjs/operators';
 
